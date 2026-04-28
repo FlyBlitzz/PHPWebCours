@@ -1,0 +1,29 @@
+.badge {
+    display: inline;
+    border: none;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 8px 16px;
+    text-transform: uppercase;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.6);
+}
+
+.badge-success {
+    background-color: green;
+    color: black;
+}
+
+.badge-danger {
+    background-color: red;
+    color: white;
+}
+.insuffisant {
+    color: red;
+    font-weight: bold;
+}
+
+.suffisant {
+    color: green;
+    font-weight: bold;
+}
