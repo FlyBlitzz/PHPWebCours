@@ -4,14 +4,17 @@ include '../src/database/connection.php';
 include '../src/repositories/utilisateurRepository.php';
 include '../src/lib/functions.php';
 
+// Initialiser les variables
 $erreurs = [];
 $succes = false;
+$email = '';
+$pseudonyme = '';
 
 // Traitement du formulaire
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email'] ?? '');
     $pseudonyme = trim($_POST['pseudonyme'] ?? '');
-    $password = $_POST['password'] ?? '';
+    $mot_de_passe = $_POST['password'] ?? '';
     $confirmation = $_POST['confirmation'] ?? '';
 
     // Validations
@@ -31,21 +34,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $erreurs['pseudonyme'] = "Ce pseudonyme est déjà utilisé.";
     }
 
-    if (empty($password)) {
+    if (empty($mot_de_passe)) {
         $erreurs['password'] = "Le mot de passe est requis.";
-    } elseif (strlen($password) < 8) {
+    } elseif (strlen($mot_de_passe) < 8) {
         $erreurs['password'] = "Le mot de passe doit contenir au moins 8 caractères.";
     }
 
     if (empty($confirmation)) {
         $erreurs['confirmation'] = "La confirmation du mot de passe est requise.";
-    } elseif ($password !== $confirmation) {
+    } elseif ($mot_de_passe !== $confirmation) {
         $erreurs['confirmation'] = "Le mot de passe et sa confirmation ne sont pas identiques.";
     }
 
     // Si pas d'erreurs, créer l'utilisateur
     if (empty($erreurs)) {
-        $motDePasseHashe = password_hash($password, PASSWORD_DEFAULT);
+        $motDePasseHashe = password_hash($mot_de_passe, PASSWORD_DEFAULT);
         $resultat = createUtilisateur([
             'pseudo' => $pseudonyme,
             'email' => $email,
@@ -54,11 +57,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($resultat) {
             $succes = true;
-            // Réinitialiser les champs
             $email = '';
             $pseudonyme = '';
-            $password = '';
-            $confirmation = '';
         } else {
             $erreurs['general'] = "Une erreur est survenue lors de la création du compte. Veuillez réessayer.";
         }
@@ -83,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         <?php endif; ?>
 
-        <form class="inscription-formulaire" method="POST" action="" novalidate>
+        <form class="inscription-formulaire" method="POST" action="">
             <div class="formulaire-groupe">
                 <label for="email">Adresse Email <span class="requis">*</span></label>
                 <input type="email" id="email" name="email" placeholder="Ex: jean.dupont@email.com"
@@ -113,6 +113,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <?= afficherErreurChamp('confirmation', $erreurs) ?>
                 </div>
             </div>
+
+            <p class="formulaire-legende"><span class="requis">*</span> Champ obligatoire</p>
 
             <button type="submit" class="btn-inscription">M'inscrire maintenant</button>
         </form>

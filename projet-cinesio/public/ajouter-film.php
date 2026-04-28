@@ -2,7 +2,7 @@
 require_once '../src/repositories/filmRepository.php';
 require_once '../src/lib/functions.php';
 
-// Variables pour le formulaire
+// Variables pour le formulaire - Initialisation pour le Sticky Form
 $erreurs = [];
 $succes = false;
 $donneesFormulaire = [
@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $succesInsertion = insertFilm($donneesFormulaire);
         if ($succesInsertion) {
             $succes = true;
-            // Réinitialiser le formulaire
+            // Réinitialiser le formulaire après succès
             $donneesFormulaire = [
                 'titre' => '',
                 'date_sortie' => '',
@@ -178,6 +178,8 @@ include '../src/includes/header.php';
                     <?= afficherErreurChamp('id_pays', $erreurs) ?>
                 </div>
             </div>
+
+            <p class="formulaire-legende"><span class="requis">*</span> Champ obligatoire</p>
 
             <button type="submit" class="btn btn-envoyer">
                 <span class="symbol">⊕</span> Ajouter ce film au catalogue

@@ -4,13 +4,15 @@ include '../src/database/connection.php';
 include '../src/repositories/utilisateurRepository.php';
 include '../src/lib/functions.php';
 
+// Initialiser les variables
 $erreurs = [];
 $succes = false;
+$email = '';
 
 // Traitement du formulaire
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email'] ?? '');
-    $password = $_POST['password'] ?? '';
+    $password_saisi = $_POST['password'] ?? '';
 
     // Validations
     if (empty($email)) {
@@ -19,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $erreurs['email'] = "Le format de l'email n'est pas valide.";
     }
 
-    if (empty($password)) {
+    if (empty($password_saisi)) {
         $erreurs['password'] = "Le mot de passe est requis.";
     }
 
@@ -27,8 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($erreurs)) {
         $utilisateur = findUtilisateurByEmail($email);
 
-        if ($utilisateur && password_verify($password, $utilisateur['mot_de_passe'])) {
-            // Connexion réussie - Stockage de l'utilisateur en session
+        if ($utilisateur && password_verify($password_saisi, $utilisateur['mot_de_passe'])) {
             $_SESSION['utilisateur'] = [
                 'id' => $utilisateur['id'],
                 'pseudo' => $utilisateur['pseudo']
@@ -63,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
             <button type="submit" class="btn-connexion">
-                <span>→</span>
+                <span>→]</span>
                 Se connecter
             </button>
         </form>
