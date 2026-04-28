@@ -78,6 +78,38 @@ nav a.active {
     color: var(--primary-color);
 }
 
+/* Styles pour le menu utilisateur connecté */
+.utilisateur-navigation {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.pseudo-utilisateur {
+    color: var(--text-color);
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.btn-deconnexion {
+    padding: 8px 16px;
+    background-color: var(--dark-color);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color var(--transition);
+    display: inline-block;
+}
+
+.btn-deconnexion:hover {
+    background-color: #000;
+}
+
 ul {
     list-style-type: none;
     display: flex;
@@ -447,6 +479,181 @@ footer {
     margin-top: 4px;
 }
 
+/* Page d'inscription */
+.page-conteneur {
+    min-height: calc(100vh - 300px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+}
+
+.formulaire-conteneur {
+    background: var(--bg-white);
+    border-radius: 12px;
+    padding: 50px;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: var(--shadow);
+}
+
+.formulaire-conteneur h2 {
+    font-size: 28px;
+    font-weight: bold;
+    color: var(--dark-color);
+    margin-bottom: 15px;
+}
+
+.sous-titre {
+    color: var(--text-light);
+    font-size: 14px;
+    margin-bottom: 35px;
+}
+
+.inscription-formulaire {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.formulaire-groupe {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.formulaire-groupe label {
+    font-weight: bold;
+    color: var(--dark-color);
+    font-size: 14px;
+}
+
+.requis {
+    color: #ef4444;
+}
+
+.formulaire-groupe input {
+    padding: 12px;
+    border: 1px solid #e5e7eb;
+    border-radius: var(--border-radius);
+    font-family: inherit;
+    font-size: 14px;
+    transition: border-color var(--transition), box-shadow var(--transition);
+    background-color: #f9fafb;
+}
+
+.formulaire-groupe input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    background-color: var(--bg-white);
+}
+
+.formulaire-groupe input::placeholder {
+    color: #d1d5db;
+}
+
+.formulaire-groupe small {
+    color: var(--text-lighter);
+    font-size: 13px;
+    margin-top: 2px;
+}
+
+.formulaire-ligne {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.btn-inscription {
+    padding: 14px 30px;
+    background-color: var(--dark-color);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color var(--transition);
+    margin-top: 10px;
+}
+
+.btn-inscription:hover {
+    background-color: #000;
+}
+
+.btn-inscription:active {
+    transform: scale(0.98);
+}
+
+.lien-connexion {
+    text-align: center;
+    color: var(--text-light);
+    font-size: 14px;
+    margin-top: 20px;
+}
+
+.lien-connexion a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: bold;
+    transition: color var(--transition);
+}
+
+.lien-connexion a:hover {
+    color: #4f46e5;
+}
+
+/* Styles pour la page de connexion */
+.connexion-formulaire {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.btn-connexion {
+    padding: 14px 30px;
+    background-color: var(--dark-color);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color var(--transition);
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-connexion:hover {
+    background-color: #000;
+}
+
+.btn-connexion:active {
+    transform: scale(0.98);
+}
+
+.lien-inscription {
+    text-align: center;
+    color: var(--text-light);
+    font-size: 14px;
+    margin-top: 20px;
+}
+
+.lien-inscription a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: bold;
+    transition: color var(--transition);
+}
+
+.lien-inscription a:hover {
+    color: #4f46e5;
+}
+
 @media (max-width: 768px) {
     .contenueur {
         padding: 12px 20px;
@@ -463,11 +670,19 @@ footer {
         grid-template-columns: 1fr;
     }
     
+    .formulaire-ligne {
+        grid-template-columns: 1fr;
+    }
+    
     main {
         padding: 20px;
     }
     
     .formulaire-section {
         padding: 20px;
+    }
+    
+    .formulaire-conteneur {
+        padding: 30px 20px;
     }
 }

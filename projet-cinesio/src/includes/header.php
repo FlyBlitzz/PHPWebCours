@@ -1,3 +1,7 @@
+<?php
+session_start();
+$estConnecte = isset($_SESSION['utilisateur']);
+?>
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -22,9 +26,20 @@
             <nav>
                 <ul>
                     <li><a href="index.php" <?= strpos($_SERVER['PHP_SELF'], 'index.php') !== false ? 'class="active"' : '' ?>>Accueil</a></li>
-                    <li><a href="">Catalogue</a></li>
-                    <li><a href="ajouter-film.php" <?= strpos($_SERVER['PHP_SELF'], 'ajouter-film.php') !== false ? 'class="active"' : '' ?>>Ajouter un film</a></li>
+                    <li class="nav-item-restricted" <?= !$estConnecte ? 'style="display:none;"' : '' ?>><a
+                            href="ajouter-film.php" <?= strpos($_SERVER['PHP_SELF'], 'ajouter-film.php') !== false ? 'class="active"' : '' ?>>Ajouter</a></li>
+                    <li <?= $estConnecte ? 'style="display:none;"' : '' ?>><a href="inscription.php"
+                            <?= strpos($_SERVER['PHP_SELF'], 'inscription.php') !== false ? 'class="active"' : '' ?>>Inscription</a></li>
+                    <li <?= $estConnecte ? 'style="display:none;"' : '' ?>><a href="connexion.php"
+                            <?= strpos($_SERVER['PHP_SELF'], 'connexion.php') !== false ? 'class="active"' : '' ?>>Connexion</a></li>
                     <li><a href="">Contact</a></li>
+                    <?php if ($estConnecte): ?>
+                        <li class="utilisateur-navigation">
+                            <span
+                                class="pseudo-utilisateur"><?= htmlspecialchars($_SESSION['utilisateur']['pseudo']) ?></span>
+                            <a href="deconnexion.php" class="btn-deconnexion">Déconnexion</a>
+                        </li>
+                    <?php endif; ?>
                 </ul>
             </nav>
         </div>
