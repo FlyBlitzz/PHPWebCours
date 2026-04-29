@@ -2,6 +2,11 @@
 require_once '../src/repositories/filmRepository.php';
 require_once '../src/lib/functions.php';
 
+if (!isset($_SESSION['utilisateur'])) {
+    header('Location: connexion.php');
+    exit;
+}
+
 // Variables pour le formulaire - Initialisation pour le Sticky Form
 $erreurs = [];
 $succes = false;
@@ -97,94 +102,99 @@ $pays = findAllPays();
 include '../src/includes/header.php';
 ?>
 
-    <h2>Ajouter un nouveau film</h2>
-    <p class="intro">Veuillez renseigner les informations ci-dessous pour ajouter un film au catalogue CinéSIO.</p>
+<h2>Ajouter un nouveau film</h2>
+<p class="intro">Veuillez renseigner les informations ci-dessous pour ajouter un film au catalogue CinéSIO.</p>
 
-    <section class="formulaire-section">
-        <?php if ($succes): ?>
-            <div class="message-succes">
-                ✓ Le film a été ajouté avec succès au catalogue !
-            </div>
-        <?php endif; ?>
+<section class="formulaire-section">
+    <?php if ($succes): ?>
+        <div class="message-succes">
+            ✓ Le film a été ajouté avec succès au catalogue !
+        </div>
+    <?php endif; ?>
 
-        <?php if (isset($erreurs['general'])): ?>
-            <div class="message-erreur">
-                <strong><?= htmlspecialchars($erreurs['general']) ?></strong>
-            </div>
-        <?php endif; ?>
+    <?php if (isset($erreurs['general'])): ?>
+        <div class="message-erreur">
+            <strong><?= htmlspecialchars($erreurs['general']) ?></strong>
+        </div>
+    <?php endif; ?>
 
-        <form method="POST" class="formulaire">
+    <form method="POST" class="formulaire">
+        <div class="formulaire-groupe">
+            <label for="titre">Titre du film <span class="requis">*</span></label>
+            <input type="text" id="titre" name="titre" placeholder="Ex: Dune: Deuxième Partie"
+                value="<?= htmlspecialchars($donneesFormulaire['titre']) ?>" required>
+            <?= afficherErreurChamp('titre', $erreurs) ?>
+        </div>
+
+        <div class="formulaire-ligne">
             <div class="formulaire-groupe">
-                <label for="titre">Titre du film <span class="requis">*</span></label>
-                <input type="text" id="titre" name="titre" placeholder="Ex: Dune: Deuxième Partie"
-                    value="<?= htmlspecialchars($donneesFormulaire['titre']) ?>" required>
-                <?= afficherErreurChamp('titre', $erreurs) ?>
-            </div>
-
-            <div class="formulaire-ligne">
-                <div class="formulaire-groupe">
-                    <label for="date_sortie">Date de sortie <span class="requis">*</span></label>
-                    <input type="date" id="date_sortie" name="date_sortie"
-                        value="<?= htmlspecialchars($donneesFormulaire['date_sortie']) ?>" required>
-                    <?= afficherErreurChamp('date_sortie', $erreurs) ?>
-                </div>
-
-                <div class="formulaire-groupe">
-                    <label for="duree">Durée (en minutes) <span class="requis">*</span></label>
-                    <input type="number" id="duree" name="duree" placeholder="Ex: 166"
-                        value="<?= htmlspecialchars($donneesFormulaire['duree']) ?>" min="1" required>
-                    <?= afficherErreurChamp('duree', $erreurs) ?>
-                </div>
+                <label for="date_sortie">Date de sortie <span class="requis">*</span></label>
+                <input type="date" id="date_sortie" name="date_sortie"
+                    value="<?= htmlspecialchars($donneesFormulaire['date_sortie']) ?>" required>
+                <?= afficherErreurChamp('date_sortie', $erreurs) ?>
             </div>
 
             <div class="formulaire-groupe">
-                <label for="synopsis">Synopsis <span class="requis">*</span></label>
-                <textarea id="synopsis" name="synopsis" placeholder="Le héros commence son périple..."
-                    required><?= htmlspecialchars($donneesFormulaire['synopsis']) ?></textarea>
-                <?= afficherErreurChamp('synopsis', $erreurs) ?>
+                <label for="duree">Durée (en minutes) <span class="requis">*</span></label>
+                <input type="number" id="duree" name="duree" placeholder="Ex: 166"
+                    value="<?= htmlspecialchars($donneesFormulaire['duree']) ?>" min="1" required>
+                <?= afficherErreurChamp('duree', $erreurs) ?>
+            </div>
+        </div>
+
+        <div class="formulaire-groupe">
+            <label for="synopsis">Synopsis <span class="requis">*</span></label>
+            <textarea id="synopsis" name="synopsis" placeholder="Le héros commence son périple..."
+                required><?= htmlspecialchars($donneesFormulaire['synopsis']) ?></textarea>
+            <?= afficherErreurChamp('synopsis', $erreurs) ?>
+        </div>
+
+        <div class="formulaire-groupe">
+            <label for="image">Affiche web (URL de l'image) <span class="requis">*</span></label>
+            <input type="url" id="image" name="image" placeholder="https://exemple.com/image.jpg"
+                value="<?= htmlspecialchars($donneesFormulaire['image']) ?>" required>
+            <?= afficherErreurChamp('image', $erreurs) ?>
+        </div>
+
+        <div class="formulaire-ligne">
+            <div class="formulaire-groupe">
+                <label for="id_genre">Genre <span class="requis">*</span></label>
+                <select id="id_genre" name="id_genre" required>
+                    <option value="">Sélectionnez un genre...</option>
+                    <?php foreach ($genres as $genre): ?>
+                        <option value="<?= $genre['id'] ?>" <?= $donneesFormulaire['id_genre'] == $genre['id'] ? 'selected' : '' ?>><?= htmlspecialchars($genre['nom']) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+                <?= afficherErreurChamp('id_genre', $erreurs) ?>
             </div>
 
             <div class="formulaire-groupe">
-                <label for="image">Affiche web (URL de l'image) <span class="requis">*</span></label>
-                <input type="url" id="image" name="image" placeholder="https://exemple.com/image.jpg"
-                    value="<?= htmlspecialchars($donneesFormulaire['image']) ?>" required>
-                <?= afficherErreurChamp('image', $erreurs) ?>
+                <label for="id_pays">Pays <span class="requis">*</span></label>
+                <select id="id_pays" name="id_pays" required>
+                    <option value="">Sélectionnez un pays...</option>
+                    <?php foreach ($pays as $p): ?>
+                        <option value="<?= $p['id'] ?>" <?= $donneesFormulaire['id_pays'] == $p['id'] ? 'selected' : '' ?>>
+                            <?= htmlspecialchars($p['nom']) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+                <?= afficherErreurChamp('id_pays', $erreurs) ?>
             </div>
+        </div>
 
-            <div class="formulaire-ligne">
-                <div class="formulaire-groupe">
-                    <label for="id_genre">Genre <span class="requis">*</span></label>
-                    <select id="id_genre" name="id_genre" required>
-                        <option value="">Sélectionnez un genre...</option>
-                        <?php foreach ($genres as $genre): ?>
-                            <option value="<?= $genre['id'] ?>" <?= $donneesFormulaire['id_genre'] == $genre['id'] ? 'selected' : '' ?>>
-                                <?= htmlspecialchars($genre['nom']) ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                    <?= afficherErreurChamp('id_genre', $erreurs) ?>
-                </div>
+        <p class="formulaire-legende"><span class="requis">*</span> Champ obligatoire</p>
 
-                <div class="formulaire-groupe">
-                    <label for="id_pays">Pays <span class="requis">*</span></label>
-                    <select id="id_pays" name="id_pays" required>
-                        <option value="">Sélectionnez un pays...</option>
-                        <?php foreach ($pays as $p): ?>
-                            <option value="<?= $p['id'] ?>" <?= $donneesFormulaire['id_pays'] == $p['id'] ? 'selected' : '' ?>>
-                                <?= htmlspecialchars($p['nom']) ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                    <?= afficherErreurChamp('id_pays', $erreurs) ?>
-                </div>
-            </div>
-
-            <p class="formulaire-legende"><span class="requis">*</span> Champ obligatoire</p>
-
-            <button type="submit" class="btn btn-envoyer">
-                <span class="symbol">⊕</span> Ajouter ce film au catalogue
-            </button>
-        </form>
-    </section>
+        <button type="submit" class="btn btn-envoyer">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle"
+                viewBox="0 0 16 16">
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                <path
+                    d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+            </svg>
+            Ajouter ce film au catalogue
+        </button>
+    </form>
+</section>
 
 <?php include '../src/includes/footer.php'; ?>
