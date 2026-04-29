@@ -54,6 +54,9 @@ if ($id === '') {
                     </svg></span>
                 <span><?= convertirDuree($filmRecherche['duree']) ?></span>
             </div>
+            <?php if ($filmRecherche['pseudo']): ?>
+                <p class="detail-createur"><strong>Créé par :</strong> <?= htmlspecialchars($filmRecherche['pseudo']) ?></p>
+            <?php endif; ?>
             <h3 class="synopsis-titre titre">Synopsis</h3>
             <p class="detail-synopsis"><?= htmlspecialchars($filmRecherche['synopsis']) ?></p>
             <a href="#" class="btn btn-verra-plus-tard">On verra plus tard...</a>

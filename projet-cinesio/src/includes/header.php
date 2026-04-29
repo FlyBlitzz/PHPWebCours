@@ -28,6 +28,7 @@ $estConnecte = isset($_SESSION['utilisateur']);
                     <li><a href="index.php" <?= strpos($_SERVER['PHP_SELF'], 'index.php') !== false ? 'class="active"' : '' ?>>Accueil</a></li>
                     <?php if ($estConnecte): ?>
                         <li><a href="ajouter-film.php" <?= strpos($_SERVER['PHP_SELF'], 'ajouter-film.php') !== false ? 'class="active"' : '' ?>>Ajouter</a></li>
+                        <li><a href="mes-films.php" <?= strpos($_SERVER['PHP_SELF'], 'mes-films.php') !== false ? 'class="active"' : '' ?>>Mes Films</a></li>
                     <?php else: ?>
                         <li><a href="inscription.php" <?= strpos($_SERVER['PHP_SELF'], 'inscription.php') !== false ? 'class="active"' : '' ?>>Inscription</a></li>
                         <li><a href="connexion.php" <?= strpos($_SERVER['PHP_SELF'], 'connexion.php') !== false ? 'class="active"' : '' ?>>Connexion</a></li>

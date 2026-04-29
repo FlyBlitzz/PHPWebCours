@@ -1,13 +1,14 @@
 <?php
 require_once '../src/repositories/filmRepository.php';
 require_once '../src/lib/functions.php';
+include '../src/includes/header.php';
 
 if (!isset($_SESSION['utilisateur'])) {
     header('Location: connexion.php');
     exit;
 }
 
-// Variables pour le formulaire - Initialisation pour le Sticky Form
+// Variables pour le formulaire
 $erreurs = [];
 $succes = false;
 $donneesFormulaire = [
@@ -76,10 +77,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Si pas d'erreurs, insérer le film
     if (empty($erreurs)) {
+        $donneesFormulaire['id_utilisateur'] = $_SESSION['utilisateur']['id'];
         $succesInsertion = insertFilm($donneesFormulaire);
         if ($succesInsertion) {
             $succes = true;
-            // Réinitialiser le formulaire après succès
             $donneesFormulaire = [
                 'titre' => '',
                 'date_sortie' => '',
@@ -98,8 +99,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // Récupérer les genres et pays pour les listes déroulantes
 $genres = findAllGenres();
 $pays = findAllPays();
-
-include '../src/includes/header.php';
 ?>
 
 <h2>Ajouter un nouveau film</h2>

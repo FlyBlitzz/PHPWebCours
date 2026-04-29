@@ -1,4 +1,12 @@
 -- 1. Création des tables (Structuration de la BDD liée au MLD)
+CREATE TABLE public.utilisateur (
+    id SERIAL PRIMARY KEY,
+    email TEXT UNIQUE NOT NULL,
+    pseudo TEXT UNIQUE NOT NULL,
+    mot_de_passe TEXT NOT NULL,
+    cree_le TIMESTAMP DEFAULT NOW()
+);
+
 CREATE TABLE genre (
     id SERIAL PRIMARY KEY,
     nom TEXT NOT NULL
@@ -18,7 +26,8 @@ CREATE TABLE film (
     synopsis TEXT NOT NULL,
     image TEXT NOT NULL,
     id_genre INT NOT NULL REFERENCES genre(id),
-    id_pays INT NOT NULL REFERENCES pays(id)
+    id_pays INT NOT NULL REFERENCES pays(id),
+    id_utilisateur INT REFERENCES utilisateur(id)
 );
 
 -- 2. Insertion des données
