@@ -405,6 +405,17 @@ h2 {
     text-align: justify;
 }
 
+.detail-createur {
+    font-size: 14px;
+    color: var(--text-light);
+    margin-bottom: 24px;
+}
+
+.detail-createur strong {
+    color: var(--dark-color);
+    font-weight: bold;
+}
+
 .btn-verra-plus-tard {
     align-self: flex-start;
 }
